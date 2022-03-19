@@ -1,9 +1,10 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const { findById } = require('../models/Game');
 const GameModel = require('../models/Game')
 
 
 // @desc    Get a list of games
-// @route   GET /api/goals
+// @route   GET /api/games
 // @access  PRIVATE 
 const getGame = (req, res) => {
     GameModel.find({}, (err, result) => {
@@ -15,8 +16,18 @@ const getGame = (req, res) => {
     })
 }
 
+const searchGame = (req, res) => {
+    GameModel.find({_id : req.params.id }, (err, result) => {
+        if (err) {
+            res.json(err);
+        } else {
+            res.json(result)
+        }
+    })
+}
+
 // @desc    Get a list of games
-// @route   GET /api/goals
+// @route   GET /api/games
 // @access  PRIVATE 
 const addGame = async (req, res) => {
     const game = req.body;
@@ -43,6 +54,7 @@ const deleteGame = (req, res) => {
 module.exports = {
     getGame,
     addGame,
+    searchGame,
     updateGame,
     deleteGame
 }
